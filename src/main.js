@@ -49,7 +49,6 @@ Vue.use(vuescroll, {
 
 
 // Set the base URL of the API
-console.log(ApiService);
 
 ApiService.init(process.env.VUE_APP_ROOT_API);
 

@@ -26,22 +26,23 @@ export default {
 	},
 	components: { Sidebar, dashboard, projectCard },
 	computed: {
-		...mapGetters("auth", [
-			"authenticating",
-			"authenticationError",
-			"authenticationErrorCode",
-			"authenticationSuccess",
-			"getAccessToken"
-		])
+		...mapGetters("auth", ["getAccessToken"]),
+		...mapGetters("project", ["getProjects"])
 	},
 	methods: {
 		...mapActions("auth", ["logout"]),
+		...mapActions("project", ["fetchProject"]),
 
 		handellogout() {
 			console.log(this.getAccessToken);
 			this.logout(this.getAccessToken);
 			// console.log("logout");
 		}
+	},
+	mounted() {
+		console.log("before fetch");
+		this.fetchProject();
+		console.log("after fetch");
 	}
 };
 </script>

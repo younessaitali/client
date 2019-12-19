@@ -22,7 +22,7 @@ const UserService = {
     login: async function (email, password) {
         const requestData = {
             method: 'post',
-            url: "/api/login/",
+            url: "login/",
             data: {
                 grant_type: 'password',
                 email: email,
@@ -57,7 +57,7 @@ const UserService = {
 
         const requestData = {
             method: 'post',
-            url: "/api/refresh",
+            url: "refresh",
             data: {
                 grant_type: 'refresh_token',
                 refresh_token: refreshToken
@@ -91,7 +91,7 @@ const UserService = {
     logout: async function (token) {
         const requestData = {
             method: 'get',
-            url: "/api/logout/",
+            url: "logout/",
             data: {
                 token: token
             },
