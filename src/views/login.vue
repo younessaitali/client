@@ -10,18 +10,20 @@
 								<label class="block mb-2 text-sm font-bold text-gray-700" for="email">Email</label>
 								<input
 									class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-									id="email"
+									v-model="email"
 									type="email"
 									placeholder="Email"
+									required
 								/>
 							</div>
 							<div class="flex-grow mb-4 md:mr-1 md:mb-0">
 								<label class="block mb-2 text-sm font-bold text-gray-700" for="password">Password</label>
 								<input
 									class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border border-red-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-									id="password"
+									v-model="password"
 									type="password"
 									placeholder="******************"
+									required
 								/>
 								<p class="text-xs italic text-red-500">Please choose a password.</p>
 							</div>
@@ -30,6 +32,7 @@
 								<button
 									class="w-full px-4 py-2 font-bold text-white bg-green-400 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
 									type="button"
+									@click="handleSubmit"
 								>Login Account</button>
 							</div>
 							<hr class="mb-6 border-t" />
@@ -59,8 +62,33 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
-	name: "signup"
+	name: "login",
+	data() {
+		return {
+			email: "",
+			password: ""
+		};
+	},
+	computed: {
+		...mapGetters("auth", [
+			"authenticating",
+			"authenticationError",
+			"authenticationErrorCode",
+			"authenticationSuccess"
+		])
+	},
+	methods: {
+		...mapActions("auth", ["login"]),
+		handleSubmit() {
+			// Perform a simple validation that email and password have been typed in
+			if (this.email != "" && this.password != "") {
+				this.login({ email: this.email, password: this.password });
+				this.password = "";
+			}
+		}
+	}
 };
 </script>
 

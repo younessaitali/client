@@ -9,11 +9,9 @@
 
 <script>
 import vuescroll from "vuescroll";
-import board from "../components/cards/board";
-import task from "../components/cards/taskCard";
 
 export default {
-	components: { board, task, vuescroll },
+	components: {  vuescroll },
 	data() {
 		return {
 			ops: {

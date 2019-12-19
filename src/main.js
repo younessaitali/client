@@ -1,3 +1,6 @@
+// jshint esversion:6
+
+
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -5,6 +8,9 @@ import store from './store';
 import './assets/css/main.css';
 import vuetify from './plugins/vuetify';
 import vuescroll from 'vuescroll';
+import TokenService from './services/storage.service';
+import ApiService from './services/api.service';
+
 
 
 import {
@@ -40,6 +46,17 @@ Vue.use(vuescroll, {
   },
   name: 'vuescroll' // customize component name, default -> vueScroll
 });
+
+
+// Set the base URL of the API
+console.log(ApiService);
+
+ApiService.init(process.env.VUE_APP_ROOT_API);
+
+// If token exists set header
+if (TokenService.getToken()) {
+  ApiService.setHeader();
+}
 
 
 Vue.config.productionTip = false;
