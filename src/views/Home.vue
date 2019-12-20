@@ -3,8 +3,14 @@
 		<Sidebar>
 			<dashboard>
 				<template v-slot:project>
+					<projectCard
+						v-for="(project, index) in getProjects.projects"
+						:key="index"
+						:title="project.title"
+						:owner="project.owner.name"
+					></projectCard>
 					<div @click="handellogout">
-						<projectCard title="new project" owner="yonessu"></projectCard>
+						<button>logout</button>
 					</div>
 				</template>
 			</dashboard>
@@ -40,9 +46,7 @@ export default {
 		}
 	},
 	mounted() {
-		console.log("before fetch");
 		this.fetchProject();
-		console.log("after fetch");
 	}
 };
 </script>

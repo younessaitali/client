@@ -1,4 +1,3 @@
-// jshint esversion:8
 import ProjectService from "../../services/project.service";
 
 const state = {
@@ -20,7 +19,7 @@ const actions = {
             console.log('in fetch project');
 
             const projects = await ProjectService.fetchProjects();
-            console.log('after fetch project ' + projects);
+            console.log(projects);
 
             commit('setProjects', {
                 projects
@@ -33,7 +32,7 @@ const actions = {
 
 const mutations = {
     setProjects(state, projects) {
-        state.projects = projects
+        state.projects = projects;
     }
 };
 
