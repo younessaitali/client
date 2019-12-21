@@ -7,23 +7,24 @@ const state = {
 
 const getters = {
     getProjects(state) {
-        return state.projects;
+        let projects = state.projects;
+
+        return projects.projects;
     },
 };
 
 const actions = {
-    async fetchProject({
+    async fetchProjects({
         commit
     }) {
         try {
-            console.log('in fetch project');
 
             const projects = await ProjectService.fetchProjects();
-            console.log(projects);
 
             commit('setProjects', {
                 projects
             })
+            return false;
         } catch (error) {
 
         }

@@ -3,12 +3,11 @@
 		<Sidebar>
 			<dashboard>
 				<template v-slot:project>
-					<projectCard
-						v-for="(project, index) in getProjects.projects"
-						:key="index"
-						:title="project.title"
-						:owner="project.owner.name"
-					></projectCard>
+					<div v-for="(project, index) in getProjects" :key="index">
+						<router-link :to="{ name: 'project', params: { id: project.id }}">
+							<projectCard :title="project.title" :owner="project.owner.name"></projectCard>
+						</router-link>
+					</div>
 					<div @click="handellogout">
 						<button>logout</button>
 					</div>
@@ -37,16 +36,15 @@ export default {
 	},
 	methods: {
 		...mapActions("auth", ["logout"]),
-		...mapActions("project", ["fetchProject"]),
+		...mapActions("project", ["fetchProjects"]),
 
 		handellogout() {
-			console.log(this.getAccessToken);
 			this.logout(this.getAccessToken);
 			// console.log("logout");
 		}
 	},
-	mounted() {
-		this.fetchProject();
+	created() {
+		this.fetchProjects();
 	}
 };
 </script>

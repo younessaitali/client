@@ -11,7 +11,7 @@
 import vuescroll from "vuescroll";
 
 export default {
-	components: {  vuescroll },
+	components: { vuescroll },
 	data() {
 		return {
 			ops: {

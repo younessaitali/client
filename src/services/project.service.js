@@ -26,6 +26,20 @@ const ProjectService = {
             throw new Error(error.response.status, error.response.data.detail);
         }
     },
+    fetchProject: async function (id) {
+        const requestData = {
+            method: 'get',
+            url: `project/${id}`,
+
+        }
+
+        try {
+            const response = await ApiService.customRequest(requestData);
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response.status, error.response.data.detail);
+        }
+    },
 
 
 };
