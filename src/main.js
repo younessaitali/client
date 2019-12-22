@@ -29,14 +29,18 @@ import {
   faEllipsisH,
   faPlus,
   faFeatherAlt,
-  faAlignRight
+  faAlignRight,
+  faSave,
+  faUser,
+  faTags,
+  faCheckSquare
 
 } from '@fortawesome/free-solid-svg-icons';
 import {
   FontAwesomeIcon
 } from '@fortawesome/vue-fontawesome';
 
-library.add(faAlignRight, faCalendarDay, faColumns, faIdCardAlt, faCogs, faBell, faRoute, faTasks, faFile, faSlidersH, faEllipsisH, faPlus, faFeatherAlt);
+library.add(faAlignRight, faCalendarDay, faColumns, faIdCardAlt, faCogs, faBell, faRoute, faTasks, faFile, faSlidersH, faEllipsisH, faPlus, faFeatherAlt, faSave, faUser, faTags, faCheckSquare);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

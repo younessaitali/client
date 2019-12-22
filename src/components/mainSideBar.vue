@@ -65,6 +65,7 @@ export default {
 			this.tabs.forEach(tab => {
 				tab.selected = tab.name == selectedTab.name;
 			});
+			
 		}
 	}
 };
