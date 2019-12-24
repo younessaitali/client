@@ -35,11 +35,30 @@ const ProjectService = {
 
         try {
             const response = await ApiService.customRequest(requestData);
-            return response.data;
+            if (!response.data.success)
+                throw error;
+            return response.data.project;
         } catch (error) {
             throw new Error(error.response.status, error.response.data.detail);
         }
     },
+
+    createProject: async function (title) {
+        const requestData = {
+            method: 'post',
+            url: 'project',
+            data: {
+                title: title
+            }
+        }
+
+        try {
+            const response = await ApiService.customRequest(requestData);
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response.status, error.response.data.detail);
+        }
+    }
 
 
 };

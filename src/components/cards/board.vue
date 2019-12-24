@@ -1,5 +1,5 @@
 <template>
-	<div class="pr-5">
+	<div class="pr-5 h-screen">
 		<div class="rounded bg-gray-200 w-64 p-2 mr-3">
 			<div class="flex justify-between py-1">
 				<h3 class="text-sm">{{title}}</h3>

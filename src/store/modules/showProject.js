@@ -8,6 +8,7 @@ const state = {
 const getters = {
     getProject(state) {
         const project = state.project.project;
+
         return {
             'id': project.id,
             'title': project.title,
@@ -27,8 +28,9 @@ const actions = {
     }, id) {
         try {
 
-            const data = await ProjectService.fetchProject(id);
-            const project = data.project;
+            const project = await ProjectService.fetchProject(id);
+            // const project = data.project;
+
             commit('setProject', {
                 project
             })

@@ -1,11 +1,12 @@
 <template>
-	<div class="font-sans antialiased h-screen flex">
-		<div class="bg-blue-500 text-purple-lighter flex-none w-24 p-6">
+	<div class="font-sans antialiased flex">
+		<div class="bg-blue-500 text-purple-lighter h-screen flex-none fixed w-24 p-6">
 			<div class="flex flex-col h-full justify-between">
 				<div>
 					<div v-for="(tab, index) in tabs" @click="active_tab(tab)" :key="index">
 						<navButton :name="tab.name" :iconName="tab.iconName" :selected="tab.selected"></navButton>
 					</div>
+					<addProject name="add" iconName="plus"></addProject>
 				</div>
 				<div>
 					<div class="cursor-pointer mb-4">
@@ -25,15 +26,18 @@
 				</div>
 			</div>
 		</div>
-		<slot></slot>
+		<div class="ml-24 w-full">
+			<slot></slot>
+		</div>
 	</div>
 </template>
 
 <script>
 import navButton from "./abstract/navButton";
+import addProject from "./abstract/addProject";
 export default {
 	name: "sideBar",
-	components: { navButton },
+	components: { navButton, addProject },
 	data() {
 		return {
 			tabs: [
@@ -51,13 +55,9 @@ export default {
 					name: "contact",
 					iconName: "id-card-alt",
 					selected: false
-				},
-				{
-					name: "add",
-					iconName: "plus",
-					selected: false
 				}
-			]
+			],
+			dialog: false
 		};
 	},
 	methods: {
@@ -65,7 +65,6 @@ export default {
 			this.tabs.forEach(tab => {
 				tab.selected = tab.name == selectedTab.name;
 			});
-			
 		}
 	}
 };

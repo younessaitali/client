@@ -1,19 +1,21 @@
 <template>
 	<div class="home w-full">
 		<Sidebar>
-			<projectSideBar></projectSideBar>
-			<boards>
-				<v-overlay v-if="loading" :value="loading">
-					<v-progress-circular indeterminate size="64"></v-progress-circular>
-				</v-overlay>
-				<div v-else v-for="(board, index) in getBoards" :key="index">
-					<board :title="board.title">
-						<div v-for="(task, index) in getTasks(board)" :key="index">
-							<task :title="task.title" :description="task.description"></task>
-						</div>
-					</board>
-				</div>
-			</boards>
+			<div class="flex h-screen">
+				<projectSideBar></projectSideBar>
+				<boards>
+					<v-overlay v-if="loading" :value="loading">
+						<v-progress-circular indeterminate size="64"></v-progress-circular>
+					</v-overlay>
+					<div v-else v-for="(board, index) in getBoards" :key="index">
+						<board :title="board.title">
+							<div v-for="(task, index) in getTasks(board)" :key="index">
+								<task :title="task.title" :description="task.description"></task>
+							</div>
+						</board>
+					</div>
+				</boards>
+			</div>
 		</Sidebar>
 	</div>
 </template>
