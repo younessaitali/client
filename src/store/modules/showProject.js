@@ -40,11 +40,22 @@ const actions = {
 
         }
     },
+    setBoard({
+        commit
+    }, board) {
+        commit('setBoard', {
+            board
+        })
+        return true
+    },
 };
 
 const mutations = {
     setProject(state, project) {
         state.project = project;
+    },
+    setBoard(state, board) {
+        state.project.project.boards.push(board)
     }
 };
 

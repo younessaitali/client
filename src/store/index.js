@@ -8,6 +8,7 @@ import auth from './modules/auth';
 import project from './modules/project';
 import showProject from './modules/showProject'
 import board from './modules/board'
+import task from './modules/task'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -15,7 +16,8 @@ export default new Vuex.Store({
     auth,
     project,
     showProject,
-    board
+    board,
+    task
   },
   strict: false
 

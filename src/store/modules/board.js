@@ -11,7 +11,8 @@ export default {
     actions: {
 
         async createBoard({
-            commit
+            commit,
+            rootState
         }, {
             title,
             projectId
@@ -22,9 +23,14 @@ export default {
 
                 const data = await BoardService.createBoard(title, projectId);
 
-                if (data.success) {
-                    board = data.board;
-                    return board;
+                if (await (data.success)) {
+
+                    console.log(data.board);
+                    commit('setBoard', {
+                        board: data.board,
+                        project: rootState.showProject.project.project
+                    })
+                    return true;
                 }
             } catch (error) {
 
@@ -33,6 +39,12 @@ export default {
     },
     mutations: {
 
-
+        setBoard(state, {
+            board,
+            project
+        }) {
+            // console.log('setboard mutation')
+            project.boards.push(board);
+        }
     },
 };

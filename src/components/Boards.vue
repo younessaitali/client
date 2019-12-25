@@ -3,7 +3,7 @@
 		<h1 class="p-6 text-3xl font-bold">Board</h1>
 		<div class="p-6 flex">
 			<slot></slot>
-			<div class="rounded bg-gray-200 h-full w-64 p-2 mr-3">
+			<div class="rounded bg-gray-200 h-full w-64 p-2 mr-64">
 				<div class="text-sm mt-2">
 					<div
 						@click="dialog=true"
@@ -14,7 +14,7 @@
 						</p>
 					</div>
 					<v-dialog v-model="dialog" max-width="800px">
-						<boardFrom></boardFrom>
+						<boardFrom v-on:submitSuccess="dialog=false"></boardFrom>
 					</v-dialog>
 				</div>
 			</div>

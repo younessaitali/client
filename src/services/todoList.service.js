@@ -4,7 +4,7 @@ import ApiService from './api.service';
 
 
 
-const BoardService = {
+const TodoListService = {
     /**
      * Login the user and store the access token to TokenService. 
      * 
@@ -13,13 +13,14 @@ const BoardService = {
      **/
 
 
-    createBoard: async function (title, projectId) {
+    createTask: async function (title, taskId) {
         const requestData = {
             method: 'post',
-            url: 'board',
+            url: 'todos',
             data: {
                 title: `${title}`,
-                project_id: `${projectId}`
+                task_id: `${taskId}`,
+
             }
         }
 
@@ -34,8 +35,8 @@ const BoardService = {
 
 };
 
-export default BoardService;
+export default TodoListService;
 
 export {
-    BoardService
+    TodoListService
 };

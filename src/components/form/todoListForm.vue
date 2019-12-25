@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-gray-100 w-full h-full max-w-4xl">
 		<div class="flex flex-col px-6 py-4 description">
-			<div class="font-bold text-xl mb-8">Create Board</div>
+			<div class="font-bold text-xl mb-8">Create Todo List</div>
 
 			<v-text-field
 				v-model="title"
@@ -18,17 +18,21 @@
 	</div>
 </template>
 
-
 <script>
 import { validationMixin } from "vuelidate";
 import { required, maxLength } from "vuelidate/lib/validators";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
-	name: "boardForm",
+	name: "todoListForm",
 	mixins: [validationMixin],
 	validations: {
 		title: { required, maxLength: maxLength(120) }
+	},
+	props: {
+		taskId: {
+			required: true
+		}
 	},
 	data() {
 		return {
@@ -37,7 +41,6 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters("showProject", ["getProject"]),
 		titleErrors() {
 			const errors = [];
 			if (!this.$v.title.$dirty) return errors;
@@ -48,19 +51,12 @@ export default {
 		}
 	},
 	methods: {
-		...mapActions("board", ["createBoard"]),
+		...mapActions("todoList", ["createTodoList"]),
 
-		async submit() {
-			const projectId = this.getProject.id;
+		submit() {
 			this.$v.$touch();
-
 			if (!this.$v.$invalid) {
-				if (
-					this.createBoard({
-						title: this.title,
-						projectId: projectId
-					})
-				) {
+				if (this.createProject(this.title)) {
 					this.clear();
 					this.$emit("submitSuccess");
 				}

@@ -8,7 +8,7 @@
 						<v-progress-circular indeterminate size="64"></v-progress-circular>
 					</v-overlay>
 					<div v-else v-for="(board, index) in getBoards" :key="index">
-						<board :title="board.title">
+						<board :title="board.title" :boardId="board.id">
 							<div v-for="(task, index) in getTasks(board)" :key="index">
 								<task :title="task.title" :description="task.description"></task>
 							</div>

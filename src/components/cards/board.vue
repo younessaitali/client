@@ -10,10 +10,16 @@
 			<div class="text-sm mt-2">
 				<slot></slot>
 
-				<div class="pl-2 pr-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-gray-400">
+				<div
+					@click="dialog=true"
+					class="pl-2 pr-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-gray-400"
+				>
 					<p class="mt-3 text-grey-dark">
 						<font-awesome-icon icon="plus" size="lg" class="text-gray-600 p-1" />Add a card
 					</p>
+					<v-dialog v-model="dialog" max-width="800px">
+						<taskForm v-on:submitSuccess="dialog=false" :boardId="boardId"></taskForm>
+					</v-dialog>
 				</div>
 			</div>
 		</div>
@@ -21,8 +27,25 @@
 </template>
 
 <script>
+import taskForm from "../form/taskForm";
 export default {
-	props: ["title"]
+	name: "board",
+	components: {
+		taskForm
+	},
+	props: {
+		title: {
+			required: true
+		},
+		boardId: {
+			required: true
+		}
+	},
+	data() {
+		return {
+			dialog: false
+		};
+	}
 };
 </script>
 
