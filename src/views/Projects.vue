@@ -10,7 +10,12 @@
 					<div v-else v-for="(board, index) in getBoards" :key="index">
 						<board :title="board.title" :boardId="board.id">
 							<div v-for="(task, index) in getTasks(board)" :key="index">
-								<task :title="task.title" :description="task.description"></task>
+								<task
+									:title="task.title"
+									:description="task.description"
+									:taskId="task.id"
+									:boardId="board.id"
+								></task>
 							</div>
 						</board>
 					</div>

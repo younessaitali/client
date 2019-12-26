@@ -1,4 +1,4 @@
-import TodoListService from '../../services/task.service'
+import TodoListService from '../../services/todoList.service'
 
 
 
@@ -10,27 +10,29 @@ export default {
     getters: {},
     actions: {
 
-        async createTask({
+        async createTodoList({
             commit,
             rootState
         }, {
             title,
             taskId,
+            boardId
         }) {
             try {
-                // console.log(title + "  " + projectId);
+                console.log('am in module' + title, taskId);
 
 
-                const data = await TodoListService.createTask(title, taskId);
+                const data = await TodoListService.createTodoList(title, taskId);
 
                 if (await (data.success)) {
 
                     commit('setTodoList', {
-                        task: data.task,
-                        boards: rootState.showProject.project.project.boards
+                        boards: rootState.showProject.project.project.boards,
+                        todoList: data.todoList,
+                        boardId: boardId
                     })
 
-                    return task;
+                    return true;
                 }
             } catch (error) {
 
@@ -40,11 +42,18 @@ export default {
     mutations: {
         setTodoList(state, {
             todoList,
-            tasks
+            boards,
+            boardId
         }) {
             Object.values(boards).forEach(board => {
-                if (board.id == task.board_id)
-                    board.tasks.push(task);
+                if (board.id == boardId)
+                    board.tasks.forEach(task => {
+                        if (task.id == todoList.task_id) {
+                            task.todos.push(todoList);
+                            console.log(task)
+                        }
+                    })
+
             });
         }
 

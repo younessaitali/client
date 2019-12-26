@@ -9,6 +9,7 @@ import project from './modules/project';
 import showProject from './modules/showProject'
 import board from './modules/board'
 import task from './modules/task'
+import todoList from './modules/todoList'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     project,
     showProject,
     board,
-    task
+    task,
+    todoList
   },
   strict: false
 

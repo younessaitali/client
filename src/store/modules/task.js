@@ -31,7 +31,7 @@ export default {
                         boards: rootState.showProject.project.project.boards
                     })
 
-                    return task;
+                    return true;
                 }
             } catch (error) {
 

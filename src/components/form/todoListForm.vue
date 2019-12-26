@@ -32,6 +32,9 @@ export default {
 	props: {
 		taskId: {
 			required: true
+		},
+		boardId: {
+			required: true
 		}
 	},
 	data() {
@@ -56,7 +59,13 @@ export default {
 		submit() {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
-				if (this.createProject(this.title)) {
+				if (
+					this.createTodoList({
+						title: this.title,
+						taskId: this.taskId,
+						boardId: this.boardId
+					})
+				) {
 					this.clear();
 					this.$emit("submitSuccess");
 				}
