@@ -30,41 +30,17 @@
 							class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mb-4 rounded"
 						>Save</button>
 					</div>
-					<div>
-						<div class="bg-gray-400 w-full h-1"></div>
-						<div class="my-3 flex justify-between">
-							<div class="font-bold text-xl">
-								<font-awesome-icon icon="check-square" size="lg" class="text-black pr-2" />Cheklist
-							</div>
-							<div>
-								<button
-									@click="DeleteTodoList"
-									class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 rounded"
-								>Delete</button>
-							</div>
-						</div>
-						<div>
-							<div class="bg-gray-400 w-full h-1"></div>
+					<div v-for="(todoList, index) in getTodoList(boardId,taskId)" :key="index">
+						<todoListTab
+							:todoListId="todoList.id"
+							:title="todoList.title"
+							:taskId="taskId"
+							:boardId="boardId"
+						>
 							<div class="mx-6">
-								<div>
-									<v-checkbox label="su" color="success" value="success" hide-details></v-checkbox>
-								</div>
-								<v-text-field
-									class="mt-4"
-									:background-color="addItemColor"
-									solo
-									name="input-7-4"
-									label="Add an item"
-									v-on:focus="todoToggle"
-									v-on:blur="todoToggle"
-								></v-text-field>
-								<button
-									v-if="addTogle"
-									@click="DeleteTodoList"
-									class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-4 rounded mb-3"
-								>Save</button>
+								<todo :todoListId="todoList.id" :taskId="taskId" :boardId="boardId"></todo>
 							</div>
-						</div>
+						</todoListTab>
 					</div>
 				</div>
 				<div class="flex flex-col px-2 py-4 taskTab">
@@ -95,8 +71,12 @@
 
 <script>
 import todoListForm from "../form/todoListForm";
+import todoListTab from "../abstract/todolListTab";
+import todo from "../cards/todo";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
-	components: { todoListForm },
+	components: { todoListForm, todoListTab, todo },
 	props: {
 		title: {
 			required: true
@@ -116,10 +96,11 @@ export default {
 			todoListTrigger: false,
 			dialog: false,
 			saveTogle: false,
-			addTogle: false,
-			descriptionColor: "#e8e9ea",
-			addItemColor: "#e8e9ea"
+			descriptionColor: "#e8e9ea"
 		};
+	},
+	computed: {
+		...mapGetters("todoList", ["getTodoList"])
 	},
 	methods: {
 		descriptionToggle() {
@@ -134,15 +115,9 @@ export default {
 		updateDescription() {
 			console.log("test works");
 		},
-		DeleteTodoList() {},
-		todoToggle() {
-			setTimeout(() => {
-				if (this.addItemColor == "#e8e9ea")
-					this.addItemColor = "#ffffff";
-				else if (this.addItemColor == "#ffffff")
-					this.addItemColor = "#e8e9ea";
-				this.addTogle = !this.addTogle;
-			}, 250);
+
+		TodoLists() {
+			return this.getTodoList(this.boardId, this.taskId);
 		}
 	}
 };

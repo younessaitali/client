@@ -19,9 +19,6 @@
 					<p class="mt-3 text-grey-dark">
 						<font-awesome-icon icon="plus" size="lg" class="text-gray-600 p-1" />Add a card
 					</p>
-					<!-- <v-dialog v-model="dialog" max-width="800px">
-						<taskForm v-on:submitSuccess="dialog=false" :boardId="boardId"></taskForm>
-					</v-dialog>-->
 				</div>
 				<div
 					v-show="dialog"
