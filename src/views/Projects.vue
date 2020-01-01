@@ -1,13 +1,13 @@
 <template>
 	<div class="home w-full">
 		<Sidebar>
-			<div class="flex h-screen">
-				<projectSideBar></projectSideBar>
+			<v-overlay v-if="loading" :value="loading">
+				<v-progress-circular indeterminate size="64"></v-progress-circular>
+			</v-overlay>
+			<div v-else class="flex h-screen">
+				<projectSideBar :projectName="getProject.title" :owner="getProject.owner"></projectSideBar>
 				<boards>
-					<v-overlay v-if="loading" :value="loading">
-						<v-progress-circular indeterminate size="64"></v-progress-circular>
-					</v-overlay>
-					<div v-else v-for="(board, index) in getBoards" :key="index">
+					<div v-for="(board, index) in getBoards" :key="index">
 						<board :title="board.title" :boardId="board.id">
 							<div v-for="(task, index) in getTasks(board)" :key="index">
 								<task

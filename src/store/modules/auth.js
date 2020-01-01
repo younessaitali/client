@@ -105,7 +105,31 @@ const actions = {
         }
 
         return state.refreshTokenPromise
+    },
+
+
+    async register({
+        commit,
+        state
+    }, {
+        name,
+        email,
+        password
+    }) {
+
+        try {
+            const data = await UserService.register(name, email, password);
+            console.log(data);
+
+            if (data.success)
+                router.push('/login');
+            // return true;
+        } catch (e) {
+
+        }
     }
+
+
 }
 
 const mutations = {

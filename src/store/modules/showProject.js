@@ -11,6 +11,7 @@ const getters = {
 
         return {
             'id': project.id,
+            'owner': project.owner.name,
             'title': project.title,
             'start_at': project.start_at,
             'end_at': project.end_at

@@ -115,6 +115,28 @@ const UserService = {
             throw new AuthenticationError(error.response.status, error.response.data.detail);
         }
 
+    },
+
+
+    /** Register the current user */
+    register: async function (name, email, password) {
+        const requestData = {
+            method: 'post',
+            url: 'register',
+            data: {
+                name: `${name}`,
+                email: `${email}`,
+                password: `${password}`
+            }
+        }
+
+        try {
+            const response = await ApiService.customRequest(requestData);
+            return response.data;
+
+        } catch (error) {
+            throw new AuthenticationError(error.response.status, error.response.data.detail);
+        }
     }
 }
 

@@ -72,14 +72,14 @@ export default {
 		cancel() {
 			this.$emit("cancel");
 		},
-		submit() {
-			console.log("am in submit");
-
+		async submit() {
 			this.$v.$touch();
+
 			if (!this.$v.$invalid) {
+				this.loading = true;
 				console.log("am in invali");
 				if (
-					this.createTodo({
+					await this.createTodo({
 						title: this.title,
 						taskId: this.taskId,
 						boardId: this.boardId,
@@ -87,7 +87,7 @@ export default {
 					})
 				) {
 					this.clear();
-					this.$emit("submitSuccess");
+					this.loading = false;
 				}
 			}
 		},

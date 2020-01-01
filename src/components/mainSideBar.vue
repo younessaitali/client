@@ -18,10 +18,14 @@
 					</div>
 					<div class="cursor-pointer">
 						<div
+							@click="settingsToggle=true"
 							:class="[{'bg-blue-700':false}, 'hover:bg-blue-700 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden']"
 						>
 							<font-awesome-icon icon="cogs" size="lg" class="text-white" />
 						</div>
+						<v-dialog v-model="settingsToggle" max-width="800px">
+							<settingsCard></settingsCard>
+						</v-dialog>
 					</div>
 				</div>
 			</div>
@@ -35,9 +39,10 @@
 <script>
 import navButton from "./abstract/navButton";
 import addProject from "./abstract/addProject";
+import settingsCard from "./cards/settingsCard";
 export default {
 	name: "sideBar",
-	components: { navButton, addProject },
+	components: { navButton, addProject, settingsCard },
 	data() {
 		return {
 			tabs: [
@@ -57,7 +62,8 @@ export default {
 					selected: false
 				}
 			],
-			dialog: false
+			dialog: false,
+			settingsToggle: false
 		};
 	},
 	methods: {

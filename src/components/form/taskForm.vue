@@ -6,7 +6,7 @@
 			name="input-7-4"
 			v-model="title"
 			:error-messages="titleErrors"
-			:counter="120"
+			:counter="30"
 			label="Title"
 			required
 			@input="$v.title.$touch()"
@@ -39,7 +39,7 @@ export default {
 	name: "TaskForm",
 	mixins: [validationMixin],
 	validations: {
-		title: { required, maxLength: maxLength(120) },
+		title: { required, maxLength: maxLength(30) },
 		description: { maxLength: maxLength(250) }
 	},
 	props: {
@@ -58,7 +58,7 @@ export default {
 			const errors = [];
 			if (!this.$v.title.$dirty) return errors;
 			!this.$v.title.maxLength &&
-				errors.push("title must be at most 120 characters long");
+				errors.push("title must be at most 30 characters long");
 			!this.$v.title.required && errors.push("title is required.");
 			return errors;
 		}

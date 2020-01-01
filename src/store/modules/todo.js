@@ -39,7 +39,7 @@ export default {
 
         async createTodo({
             commit,
-            rootGetters
+            rootState
         }, {
             title,
             taskId,
@@ -50,14 +50,16 @@ export default {
 
                 console.log('am in');
                 const data = await TodoService.createTodo(title, todoListId);
-                console.log(data);
 
                 if (await (data.success)) {
 
+                    // console.log(data.todo);
                     commit('setTodo', {
                         todo: data.todo,
                         todoListId: todoListId,
-                        todoList: rootGetters["todoList/getTodoList"](boardId, taskId),
+                        boardId: boardId,
+                        taskId: taskId,
+                        boards: rootState.showProject.project.project.boards
                     })
 
                     return true;
@@ -70,14 +72,27 @@ export default {
     mutations: {
         setTodo(state, {
             todoListId,
-            todoList,
-            todo
+            boards,
+            todo,
+            boardId,
+            taskId
         }) {
-            Object.values(todoLists)
-                .forEach(todolist => {
-                    if (todolist.id == todoListId)
-                        todoList.push(todo);
-                });
+            console.log(todo);
+
+            Object.values(boards).forEach(board => {
+                if (board.id == boardId)
+                    board.tasks.forEach(task => {
+                        if (task.id == taskId) {
+                            task.todos.forEach(todoList => {
+                                if (todoList.id == todoListId) {
+                                    todoList.todo_list.push(todo);
+                                }
+
+                            })
+                        }
+                    })
+
+            });
         }
 
     },

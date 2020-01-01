@@ -8,24 +8,31 @@
 						<form class="px-8 pt-6 pb-8 mb-4 bg-white rounded">
 							<div class="mb-4">
 								<label class="block mb-2 text-sm font-bold text-gray-700" for="email">Email</label>
-								<input
-									class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+								<v-text-field
+									class="mt-4"
+									solo
+									name="input-7-4"
 									v-model="email"
-									type="email"
-									placeholder="Email"
+									:error-messages="emailErrors"
+									label="Email"
 									required
-								/>
+									@input="$v.email.$touch()"
+									@blur="$v.email.$touch()"
+								></v-text-field>
 							</div>
 							<div class="flex-grow mb-4 md:mr-1 md:mb-0">
 								<label class="block mb-2 text-sm font-bold text-gray-700" for="password">Password</label>
-								<input
-									class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border border-red-500 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+								<v-text-field
+									class="mt-4"
+									solo
+									name="input-7-4"
 									v-model="password"
-									type="password"
-									placeholder="******************"
+									:error-messages="passwordErrors"
+									label="password"
 									required
-								/>
-								<p class="text-xs italic text-red-500">Please choose a password.</p>
+									@input="$v.password.$touch()"
+									@blur="$v.password.$touch()"
+								></v-text-field>
 							</div>
 
 							<div class="mb-6 text-center">
@@ -36,17 +43,19 @@
 								>Login Account</button>
 							</div>
 							<hr class="mb-6 border-t" />
-							<div class="text-center">
+							<!-- <div class="text-center">
 								<a
 									class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
 									href="#"
 								>Forgot Password?</a>
-							</div>
+							</div>-->
 							<div class="text-center">
-								<a
-									class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-									href="#"
-								>You don't have an account? Create One!</a>
+								<router-link to="/signup">
+									<span
+										class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
+										href="#"
+									>You don't have an account? Create One!</span>
+								</router-link>
 							</div>
 						</form>
 					</div>
@@ -63,8 +72,15 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { validationMixin } from "vuelidate";
+import { required, email, minLength } from "vuelidate/lib/validators";
 export default {
 	name: "login",
+	mixins: [validationMixin],
+	validations: {
+		email: { required, email },
+		password: { required, minLength: minLength(6) }
+	},
 	data() {
 		return {
 			email: "",
@@ -77,15 +93,30 @@ export default {
 			"authenticationError",
 			"authenticationErrorCode",
 			"authenticationSuccess"
-		])
+		]),
+		emailErrors() {
+			const errors = [];
+			if (!this.$v.email.$dirty) return errors;
+			!this.$v.email.email && errors.push("Email not correct");
+			!this.$v.email.required && errors.push("email is required");
+			return errors;
+		},
+		passwordErrors() {
+			const errors = [];
+			if (!this.$v.email.$dirty) return errors;
+			!this.$v.password.minLength &&
+				errors.push("Password must have at least 6 letters");
+			!this.$v.password.required && errors.push("password is required");
+			return errors;
+		}
 	},
 	methods: {
 		...mapActions("auth", ["login"]),
 		handleSubmit() {
-			// Perform a simple validation that email and password have been typed in
-			if (this.email != "" && this.password != "") {
+			this.$v.$touch();
+
+			if (!this.$v.$invalid) {
 				this.login({ email: this.email, password: this.password });
-				this.password = "";
 			}
 		}
 	}

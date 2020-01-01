@@ -3,10 +3,10 @@
 		<div class="bg-blue-700 text-purple-lighter h-full flex-none w-64 pb-6 hidden md:block">
 			<div class="text-white mb-2 py-5 px-4 flex justify-between">
 				<div class="flex-auto">
-					<h1 class="font-semibold text-xl leading-tight mb-1 truncate">Project Name</h1>
+					<h1 class="font-semibold text-xl leading-tight mb-1 truncate">{{projectName}}</h1>
 					<div class="flex items-center mb-6">
 						<span class="bg-green-500 rounded-full block w-2 h-2 mr-2"></span>
-						<span class="text-white pl-1 opacity-50 text-sm">Adam Wathan</span>
+						<span class="text-white pl-1 opacity-50 text-sm">{{owner}}</span>
 					</div>
 				</div>
 				<div>
@@ -55,7 +55,16 @@
 </template>
 
 <script>
-export default {};
+export default {
+	props: {
+		projectName: {
+			required: true
+		},
+		owner: {
+			required: true
+		}
+	}
+};
 </script>
 
 <style>
