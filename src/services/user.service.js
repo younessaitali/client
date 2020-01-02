@@ -137,7 +137,8 @@ const UserService = {
         } catch (error) {
             throw new AuthenticationError(error.response.status, error.response.data.detail);
         }
-    }
+    },
+    
 }
 
 export default UserService

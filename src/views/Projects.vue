@@ -8,7 +8,7 @@
 				<projectSideBar :projectName="getProject.title" :owner="getProject.owner"></projectSideBar>
 				<boards>
 					<div v-for="(board, index) in getBoards" :key="index">
-						<board :title="board.title" :boardId="board.id">
+						<board :title="board.title" :boardId="board.id" :projectId="getProject.id">
 							<div v-for="(task, index) in getTasks(board)" :key="index">
 								<task
 									:title="task.title"

@@ -58,6 +58,34 @@ const ProjectService = {
         } catch (error) {
             throw new Error(error.response.status, error.response.data.detail);
         }
+    },
+    deleteProject: async function (id) {
+        const requestData = {
+            method: 'delete',
+            url: `project/${id}`
+        };
+        try {
+            const response = await ApiService.customRequest(requestData);
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response.status, error.response.data.detail);
+        }
+    },
+
+    updateProject: async function (id, title) {
+        const requestData = {
+            method: 'put',
+            url: `project/${id}`,
+            data: {
+                title: title
+            }
+        };
+        try {
+            const response = await ApiService.customRequest(requestData);
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response.status, error.response.data.detail);
+        }
     }
 
 

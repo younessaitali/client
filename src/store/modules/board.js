@@ -25,7 +25,6 @@ export default {
 
                 if (await (data.success)) {
 
-                    console.log(data.board);
                     commit('setBoard', {
                         board: data.board,
                         project: rootState.showProject.project.project
@@ -36,6 +35,50 @@ export default {
 
             }
         },
+        async deleteBoard({
+            commit,
+            rootState
+        }, {
+            id
+        }) {
+            try {
+
+                const data = await BoardService.deleteBoard(id);
+                console.log(data);
+                if (data.success) {
+                    commit('delete', {
+                        id: id,
+                        project: rootState.showProject.project.project
+                    });
+                }
+            } catch (error) {
+
+            }
+        },
+        async updateBoard({
+            commit,
+            rootState
+        }, {
+            id,
+            title,
+            projectId
+        }) {
+            try {
+                const data = await BoardService.updateBoard(id, title, projectId);
+                console.log(data);
+
+                if (data.success) {
+                    commit('refreshBoards', {
+                        id: id,
+                        project: rootState.showProject.project.project,
+                        board: ""
+                    })
+                }
+            } catch (error) {
+
+            }
+
+        },
     },
     mutations: {
 
@@ -45,6 +88,22 @@ export default {
         }) {
             // console.log('setboard mutation')
             project.boards.push(board);
+        },
+        delete(state, {
+            id,
+            project
+        }) {
+            project.boards.forEach((board, index) => {
+                if (board.id === id)
+                    project.boards.splice(index, 1)
+            });
         }
     },
+    refreshBoards(state, {
+        id,
+        project,
+        board
+    }) {
+
+    }
 };

@@ -4,12 +4,7 @@
 			<dashboard>
 				<template v-slot:project>
 					<div v-for="(project, index) in getProjects" :key="index">
-						<router-link :to="{ name: 'project', params: { id: project.id }}">
-							<projectCard :title="project.title" :owner="project.owner.name"></projectCard>
-						</router-link>
-					</div>
-					<div @click="handellogout">
-						<button>logout</button>
+						<projectCard :title="project.title" :owner="project.owner.name" :id="project.id"></projectCard>
 					</div>
 				</template>
 			</dashboard>
@@ -31,17 +26,10 @@ export default {
 	},
 	components: { Sidebar, dashboard, projectCard },
 	computed: {
-		...mapGetters("auth", ["getAccessToken"]),
 		...mapGetters("project", ["getProjects"])
 	},
 	methods: {
-		...mapActions("auth", ["logout"]),
-		...mapActions("project", ["fetchProjects"]),
-
-		handellogout() {
-			this.logout(this.getAccessToken);
-			// console.log("logout");
-		}
+		...mapActions("project", ["fetchProjects"])
 	},
 	created() {
 		this.fetchProjects();

@@ -4,7 +4,22 @@
 			<div class="flex justify-between py-1">
 				<h3 class="text-sm">{{title}}</h3>
 				<div>
-					<font-awesome-icon icon="ellipsis-h" size="xs" class="text-black" />
+					<v-menu offset-x transition="slide-y-transition" bottom>
+						<template v-slot:activator="{ on }">
+							<font-awesome-icon icon="ellipsis-h" class="text-black hover:text-gray-600" v-on="on" />
+						</template>
+						<v-list>
+							<v-list-item @click="deleteB">
+								<v-list-item-title>Delete</v-list-item-title>
+							</v-list-item>
+							<v-list-item @click="updateToggle=true">
+								<v-list-item-title>Update</v-list-item-title>
+							</v-list-item>
+						</v-list>
+					</v-menu>
+					<v-dialog v-model="updateToggle" max-width="600px">
+						<boardUpdateForm :id="boardId" :oldTitle="title" :projectId="projectId"></boardUpdateForm>
+					</v-dialog>
 				</div>
 			</div>
 			<div class="text-sm mt-2">
@@ -36,10 +51,14 @@
 
 <script>
 import taskForm from "../form/taskForm";
+import boardUpdateForm from "../form/boardFormUpdate";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
 	name: "board",
 	components: {
-		taskForm
+		taskForm,
+		boardUpdateForm
 	},
 	props: {
 		title: {
@@ -47,17 +66,27 @@ export default {
 		},
 		boardId: {
 			required: true
+		},
+		projectId: {
+			required: true
 		}
 	},
 	data() {
 		return {
-			dialog: false
+			dialog: false,
+			updateToggle: false
 		};
 	},
 	computed: {},
 	methods: {
+		...mapActions("board", ["deleteBoard"]),
+
 		onClose() {
 			this.dialog = false;
+		},
+		deleteB() {
+			console.log(this.boardId);
+			this.deleteBoard({ id: this.boardId });
 		}
 	}
 };
