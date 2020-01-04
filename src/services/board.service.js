@@ -45,7 +45,7 @@ const BoardService = {
     },
     updateBoard: async function (id, title, projectId) {
         const requestData = {
-            method: 'delete',
+            method: 'put',
             url: `board/${id}`,
             data: {
                 title: `${title}`,

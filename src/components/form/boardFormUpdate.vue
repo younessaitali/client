@@ -23,7 +23,7 @@
 			>
 				update
 				<template v-slot:loader>
-					<span>Saving...</span>
+					<span>Updating...</span>
 				</template>
 			</v-btn>
 		</div>
@@ -37,7 +37,7 @@ import { required, maxLength } from "vuelidate/lib/validators";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-	name: "boardForm",
+	name: "boardUpdateForm",
 	mixins: [validationMixin],
 	validations: {
 		title: { required, maxLength: maxLength(120) }
@@ -58,8 +58,7 @@ export default {
 			title: "",
 			loading: false
 		};
-    },
-    mounted:{},
+	},
 	computed: {
 		...mapGetters("showProject", ["getProject"]),
 		titleErrors() {
@@ -79,12 +78,15 @@ export default {
 			this.$v.$touch();
 
 			if (!this.$v.$invalid) {
+				this.loading = true;
 				if (
-					this.updateBoard({
+					await this.updateBoard({
+						id: this.id,
 						title: this.title,
 						projectId: projectId
 					})
 				) {
+					this.loading = false;
 					this.clear();
 					this.$emit("submitSuccess");
 				}

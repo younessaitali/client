@@ -18,7 +18,12 @@
 						</v-list>
 					</v-menu>
 					<v-dialog v-model="updateToggle" max-width="600px">
-						<boardUpdateForm :id="boardId" :oldTitle="title" :projectId="projectId"></boardUpdateForm>
+						<boardUpdateForm
+							:id="boardId"
+							:oldTitle="title"
+							:projectId="projectId"
+							v-on:submitSuccess="updateToggle=false"
+						></boardUpdateForm>
 					</v-dialog>
 				</div>
 			</div>

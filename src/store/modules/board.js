@@ -65,14 +65,14 @@ export default {
         }) {
             try {
                 const data = await BoardService.updateBoard(id, title, projectId);
-                console.log(data);
 
                 if (data.success) {
                     commit('refreshBoards', {
                         id: id,
                         project: rootState.showProject.project.project,
-                        board: ""
-                    })
+                        board: data.data
+                    });
+                    return true;
                 }
             } catch (error) {
 
@@ -97,13 +97,16 @@ export default {
                 if (board.id === id)
                     project.boards.splice(index, 1)
             });
+        },
+        refreshBoards(state, {
+            id,
+            project,
+            board
+        }) {
+            project.boards.forEach((item, index) => {
+                if (item.id === id)
+                    project.boards.splice(index, 1, board)
+            });
         }
     },
-    refreshBoards(state, {
-        id,
-        project,
-        board
-    }) {
-
-    }
 };

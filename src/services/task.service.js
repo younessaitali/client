@@ -31,6 +31,38 @@ const TaskService = {
         } catch (error) {
             throw new Error(error.response.status, error.response.data.detail);
         }
+    },
+    deleteTask: async function (id) {
+        const requestData = {
+            method: 'delete',
+            url: `task/${id}`,
+        }
+
+        try {
+            const response = await ApiService.customRequest(requestData);
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response.status, error.response.data.detail);
+        }
+    },
+    updateTask: async function (id, title, boardId) {
+        const requestData = {
+            method: 'put',
+            url: `task/${id}`,
+            data: {
+                id: `${id}`,
+                description: ` `,
+                board_id: `${boardId}`,
+                title: `${title}`
+            }
+        }
+
+        try {
+            const response = await ApiService.customRequest(requestData);
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response.status, error.response.data.detail);
+        }
     }
 
 

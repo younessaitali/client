@@ -33,7 +33,9 @@ import {
   faSave,
   faUser,
   faTags,
-  faCheckSquare
+  faCheckSquare,
+  faEdit,
+  faTrashAlt
 
 } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -43,7 +45,7 @@ import {
 
 
 //* \\\\\\\\font awesome\\\\\\\\\\\\ 
-library.add(faAlignRight, faCalendarDay, faColumns, faIdCardAlt, faCogs, faBell, faRoute, faTasks, faFile, faSlidersH, faEllipsisH, faPlus, faFeatherAlt, faSave, faUser, faTags, faCheckSquare);
+library.add(faEdit, faTrashAlt, faAlignRight, faCalendarDay, faColumns, faIdCardAlt, faCogs, faBell, faRoute, faTasks, faFile, faSlidersH, faEllipsisH, faPlus, faFeatherAlt, faSave, faUser, faTags, faCheckSquare);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

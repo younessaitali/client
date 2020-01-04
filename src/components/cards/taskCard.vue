@@ -1,16 +1,19 @@
 <template>
 	<span>
 		<div
-			class="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-gray-100"
-			@click="dialog = true"
-		>{{title}}</div>
+			class="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-gray-100 flex justify-between"
+			@mouseleave="editeToggle=false"
+			@mouseover="editeToggle=true"
+		>
+			<div @click="dialog = true" class="w-full">{{title}}</div>
+			<div @click="destroyTask">
+				<font-awesome-icon v-show="editeToggle" icon="trash-alt" size="2x" class="text-gray-600 pr-2" />
+			</div>
+		</div>
 		<v-dialog v-model="dialog" max-width="800px">
 			<div class="bg-gray-100 w-full h-full task">
 				<div class="flex flex-col px-6 py-4 description">
-					<div class="font-bold text-xl mb-8">
-						<font-awesome-icon icon="feather-alt" size="lg" class="text-gray-600" />
-						{{title}}
-					</div>
+					<taskTitle :taskId="taskId" :boardId="boardId" :oldtitle="title"></taskTitle>
 					<div class="text-lg font-semibold mb-2">
 						<font-awesome-icon icon="align-right" size="lg" class="text-gray-600 pr-2" />Description
 					</div>
@@ -73,10 +76,17 @@
 import todoListForm from "../form/todoListForm";
 import todoListTab from "../abstract/todolListTab";
 import todo from "../cards/todo";
+import taskTitle from "../inputs/taskTitle";
+import { validationMixin } from "vuelidate";
+import { required, maxLength } from "vuelidate/lib/validators";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-	components: { todoListForm, todoListTab, todo },
+	components: { todoListForm, todoListTab, todo, taskTitle },
+	mixins: [validationMixin],
+	validations: {
+		description: { maxLength: maxLength(250) }
+	},
 	props: {
 		title: {
 			required: true
@@ -96,13 +106,15 @@ export default {
 			todoListTrigger: false,
 			dialog: false,
 			saveTogle: false,
-			descriptionColor: "#e8e9ea"
+			descriptionColor: "#e8e9ea",
+			editeToggle: false
 		};
 	},
 	computed: {
 		...mapGetters("todoList", ["getTodoList"])
 	},
 	methods: {
+		...mapActions("task", ["deleteTask"]),
 		descriptionToggle() {
 			setTimeout(() => {
 				if (this.descriptionColor == "#e8e9ea")
@@ -118,6 +130,9 @@ export default {
 
 		TodoLists() {
 			return this.getTodoList(this.boardId, this.taskId);
+		},
+		destroyTask() {
+			this.deleteTask({ id: this.taskId, boardId: this.boardId });
 		}
 	}
 };
