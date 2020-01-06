@@ -30,6 +30,36 @@ const TodoListService = {
         } catch (error) {
             throw new Error(error.response.status, error.response.data.detail);
         }
+    },
+
+    deleteTodoList: async function (id) {
+        const requestData = {
+            method: 'delete',
+            url: `todos/${id}`,
+        };
+        try {
+            const response = await ApiService.customRequest(requestData);
+            return response.data;
+        } catch (error) {
+            throw new Error(error.response.status, error.response.data.detail);
+        }
+    },
+    updateTodoList: async function (id, taskId, title) {
+        const requestData = {
+            method: 'put',
+            url: `todos/${id}`,
+            data: {
+                title: `${title}`,
+                task_id: `${taskId}`
+            }
+        };
+        try {
+            const response = await ApiService.customRequest(requestData);
+            return response.data
+        } catch (error) {
+            throw new Error(error.response.status, error.response.data.detail);
+        }
+
     }
 
 

@@ -68,6 +68,54 @@ export default {
 
             }
         },
+        async deleteTodoList({
+            commit,
+            rootState
+        }, {
+            id,
+            taskId,
+            boardId
+        }) {
+            try {
+                const data = await TodoListService.deleteTodoList(id);
+                if (await data.success) {
+                    commit('deleteTodoList', {
+                        boards: rootState.showProject.project.project.boards,
+                        taskId: taskId,
+                        boardId: boardId,
+                        id: id
+                    })
+                }
+            } catch (error) {
+
+            }
+        },
+        async updateTodoList({
+            commit,
+            rootState
+        }, {
+            taskId,
+            boardId,
+            id,
+            title
+        }) {
+            try {
+                const data = await TodoListService.updateTodoList(id, taskId, title);
+                console.log(data)
+                if (await data.success) {
+                    commit('updateTodoList', {
+                        boards: rootState.showProject.project.project.boards,
+                        taskId: taskId,
+                        boardId: boardId,
+                        id: id,
+                        todoList: data.data
+                    })
+                    return true
+                }
+            } catch (error) {
+
+            }
+        }
     },
     mutations: {
         setTodoList(state, {
@@ -80,12 +128,54 @@ export default {
                     board.tasks.forEach(task => {
                         if (task.id == todoList.task_id) {
                             task.todos.push(todoList);
-                            console.log(task)
+                        }
+                    })
+
+            });
+        },
+
+        deleteTodoList(state, {
+            boards,
+            taskId,
+            boardId,
+            id
+        }) {
+
+
+            Object.values(boards).forEach(board => {
+                if (board.id == boardId)
+                    board.tasks.forEach(task => {
+                        if (task.id == taskId) {
+                            task.todos.forEach((todoList, index) => {
+                                if (todoList.id === id)
+                                    task.todos.splice(index, 1)
+                            })
+                        }
+                    })
+
+            });
+        },
+        updateTodoList(state, {
+            boards,
+            taskId,
+            boardId,
+            id,
+            todoList
+        }) {
+            Object.values(boards).forEach(board => {
+                if (board.id == boardId)
+                    board.tasks.forEach(task => {
+                        if (task.id == taskId) {
+                            task.todos.forEach((item, index) => {
+                                if (item.id === id)
+                                    task.todos.splice(index, 1, todoList)
+                            })
                         }
                     })
 
             });
         }
+
 
     },
 };

@@ -92,7 +92,8 @@
 								<router-link to="/login">
 									<span
 										class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-									>Already have an account? Login!</span>
+									>Already have an account? 
+									!</span>
 								</router-link>
 							</div>
 						</form>

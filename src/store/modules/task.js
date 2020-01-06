@@ -101,7 +101,7 @@ export default {
             Object.values(boards).forEach(board => {
                 if (board.id == boardId)
                     board.tasks.forEach((task, index) => {
-                        if (task.id = id)
+                        if (task.id === id)
                             board.tasks.splice(index, 1);
                     });
             });
@@ -115,7 +115,7 @@ export default {
             Object.values(boards).forEach(board => {
                 if (board.id == boardId)
                     board.tasks.forEach((item, index) => {
-                        if (item.id = id)
+                        if (item.id === id)
                             board.tasks.splice(index, 1, task);
                     });
             });

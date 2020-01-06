@@ -48,12 +48,10 @@ export default {
         }) {
             try {
 
-                console.log('am in');
                 const data = await TodoService.createTodo(title, todoListId);
 
                 if (await (data.success)) {
 
-                    // console.log(data.todo);
                     commit('setTodo', {
                         todo: data.todo,
                         todoListId: todoListId,
@@ -68,6 +66,60 @@ export default {
 
             }
         },
+
+        async deleteTodo({
+            commit,
+            rootState
+        }, {
+            taskId,
+            boardId,
+            todoListId,
+            id
+        }) {
+            try {
+                const data = await TodoService.deleteTodo(id);
+                if (data.success) {
+                    commit('destroyTodo', {
+                        id: id,
+                        todoListId: todoListId,
+                        boardId: boardId,
+                        taskId: taskId,
+                        boards: rootState.showProject.project.project.boards
+                    })
+                }
+
+            } catch (error) {
+
+            }
+        },
+        async updateTodo({
+            commit,
+            rootState
+        }, {
+            taskId,
+            boardId,
+            todoListId,
+            title,
+            id,
+            completed
+        }) {
+            try {
+                const data = await TodoService.updateTodo(id, title, todoListId);
+                if (data.success) {
+                    commit('refreshTodo', {
+                        id: id,
+                        todoListId: todoListId,
+                        boardId: boardId,
+                        taskId: taskId,
+                        boards: rootState.showProject.project.project.boards,
+                        todo: data.data
+                    })
+                    return true
+                }
+            } catch (error) {
+
+            }
+        }
     },
     mutations: {
         setTodo(state, {
@@ -77,7 +129,6 @@ export default {
             boardId,
             taskId
         }) {
-            console.log(todo);
 
             Object.values(boards).forEach(board => {
                 if (board.id == boardId)
@@ -93,7 +144,61 @@ export default {
                     })
 
             });
+        },
+        destroyTodo(state, {
+            todoListId,
+            boards,
+            id,
+            boardId,
+            taskId
+        }) {
+            Object.values(boards).forEach(board => {
+                if (board.id == boardId)
+                    board.tasks.forEach(task => {
+                        if (task.id == taskId) {
+                            task.todos.forEach(todoList => {
+                                if (todoList.id == todoListId) {
+                                    todoList.todo_list.forEach((todo, index) => {
+                                        if (todo.id == id) {
+                                            todoList.todo_list.splice(index, 1)
+                                        }
+                                    })
+                                }
+
+                            })
+                        }
+                    })
+
+            });
+        },
+        refreshTodo(state, {
+            todoListId,
+            boards,
+            id,
+            boardId,
+            taskId,
+            todo
+        }) {
+            Object.values(boards).forEach(board => {
+                if (board.id == boardId)
+                    board.tasks.forEach(task => {
+                        if (task.id == taskId) {
+                            task.todos.forEach(todoList => {
+                                if (todoList.id == todoListId) {
+                                    todoList.todo_list.forEach((item, index) => {
+                                        if (item.id == id) {
+                                            todoList.todo_list.splice(index, 1, todo)
+                                        }
+                                    })
+                                }
+
+                            })
+                        }
+                    })
+
+            });
         }
 
     },
+
 };

@@ -77,7 +77,6 @@ export default {
 
 			if (!this.$v.$invalid) {
 				this.loading = true;
-				console.log("am in invali");
 				if (
 					await this.createTodo({
 						title: this.title,
