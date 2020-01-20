@@ -1,5 +1,6 @@
 <template>
-	<vuescroll :ops="ops">
+	<!-- <vuescroll :ops="ops"> -->
+	<div>
 		<h1 class="p-6 text-3xl font-bold">Board</h1>
 		<div class="p-6 flex">
 			<slot></slot>
@@ -19,7 +20,8 @@
 				</div>
 			</div>
 		</div>
-	</vuescroll>
+	</div>
+	<!-- </vuescroll> -->
 </template>
 
 <script>
@@ -27,7 +29,7 @@ import vuescroll from "vuescroll";
 import boardFrom from "./form/boardForm";
 
 export default {
-	components: { vuescroll, boardFrom },
+	components: { boardFrom },
 	data() {
 		return {
 			ops: {

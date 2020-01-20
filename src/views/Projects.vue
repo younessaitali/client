@@ -7,18 +7,24 @@
 			<div v-else class="flex h-screen">
 				<projectSideBar :projectName="getProject.title" :owner="getProject.owner"></projectSideBar>
 				<boards>
-					<div v-for="(board, index) in getBoards" :key="index">
-						<board :title="board.title" :boardId="board.id" :projectId="getProject.id">
-							<div v-for="(task, index) in getTasks(board)" :key="index">
-								<task
-									:title="task.title"
-									:description="task.description"
-									:taskId="task.id"
-									:boardId="board.id"
-								></task>
-							</div>
-						</board>
-					</div>
+					<draggable v-model="project.boards" class="flex">
+						<!-- <transition-group> -->
+						<div v-for="(board, index) in project.boards" :key="index">
+							<board :title="board.title" :boardId="board.id" :projectId="getProject.id">
+								<draggable :list="board.tasks" group="task" v-on:sort="sort(board)">
+									<div v-for="(task, index) in board.tasks" :key="index">
+										<task
+											:title="task.title"
+											:description="task.description"
+											:taskId="task.id"
+											:boardId="board.id"
+										></task>
+									</div>
+								</draggable>
+							</board>
+						</div>
+						<!-- </transition-group> -->
+					</draggable>
 				</boards>
 			</div>
 		</Sidebar>
@@ -31,12 +37,13 @@ import projectSideBar from "../components/projectSideBar";
 import boards from "../components/Boards";
 import board from "../components/cards/board";
 import task from "../components/cards/taskCard";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
+import draggable from "vuedraggable";
 
 // import dashboard from "../components/dashboard";
 export default {
 	name: "projects",
-	components: { Sidebar, projectSideBar, boards, board, task },
+	components: { draggable, Sidebar, projectSideBar, boards, board, task },
 	props: {
 		id: {
 			required: true
@@ -44,17 +51,28 @@ export default {
 	},
 	data() {
 		return {
-			loading: true,
-			watch: {}
+			loading: true
 		};
 	},
 	computed: {
+		...mapState("showProject", {
+			project: state => state.project.project,
+			boards: state => state.project.project.boards
+			//  {
+			// 	get: function(state) {
+			// 		return state.project;
+			// 	},
+			// 	set: function(state, { newvalue }) {
+			// 		state.project = newvalue;
+			// 	}
+			// }
+		}),
 		...mapGetters("showProject", ["getProject", "getBoards"])
 	},
 	methods: {
 		...mapActions("showProject", ["fetchProject"]),
-		getTasks(board) {
-			return board.tasks;
+		sort(board) {
+			console.log(board);
 		}
 	},
 	async created() {
