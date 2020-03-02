@@ -19,7 +19,7 @@ const getters = {
     },
     getBoards(state) {
         const boards = state.project.project.boards;
-        return boards;
+        return boards.sort((a, b) => a.sort - b.sort);
     }
 };
 

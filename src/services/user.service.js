@@ -103,7 +103,7 @@ const UserService = {
             // Remove the token and remove Authorization header from Api Service as well 
 
             // NOTE: Again, we'll cover the 401 Interceptor a bit later. 
-            //ApiService.unmount401Interceptor()
+            ApiService.unmount401Interceptor()
 
             TokenService.removeToken()
             TokenService.removeRefreshToken()
@@ -112,6 +112,9 @@ const UserService = {
 
             return response.data;
         } catch (error) {
+            TokenService.removeToken()
+            TokenService.removeRefreshToken()
+            ApiService.removeHeader()
             throw new AuthenticationError(error.response.status, error.response.data.detail);
         }
 

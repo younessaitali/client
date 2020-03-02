@@ -51,6 +51,9 @@ export default {
 		},
 		projectId: {
 			required: true
+		},
+		sort: {
+			required: true
 		}
 	},
 	data() {
@@ -83,7 +86,8 @@ export default {
 					await this.updateBoard({
 						id: this.id,
 						title: this.title,
-						projectId: projectId
+						projectId: projectId,
+						sort: this.sort
 					})
 				) {
 					this.loading = false;

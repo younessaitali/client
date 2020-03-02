@@ -13,14 +13,15 @@ const TaskService = {
      **/
 
 
-    createTask: async function (title, boardId, description) {
+    createTask: async function (title, boardId, description, sort) {
         const requestData = {
             method: 'post',
             url: 'task',
             data: {
                 title: `${title}`,
                 board_id: `${boardId}`,
-                description: `${description}`
+                description: `${description}`,
+                sort: `${sort}`
             }
         }
 
@@ -45,7 +46,7 @@ const TaskService = {
             throw new Error(error.response.status, error.response.data.detail);
         }
     },
-    updateTask: async function (id, title, boardId) {
+    updateTask: async function (id, title, boardId, sort) {
         const requestData = {
             method: 'put',
             url: `task/${id}`,
@@ -53,7 +54,8 @@ const TaskService = {
                 id: `${id}`,
                 description: ` `,
                 board_id: `${boardId}`,
-                title: `${title}`
+                title: `${title}`,
+                sort: `${sort}`
             }
         }
 

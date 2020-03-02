@@ -13,7 +13,7 @@
 		<v-dialog v-model="dialog" max-width="800px">
 			<div class="bg-gray-100 w-full h-full task">
 				<div class="flex flex-col px-6 py-4 description">
-					<taskTitle :taskId="taskId" :boardId="boardId" :oldtitle="title"></taskTitle>
+					<taskTitle :taskId="taskId" :boardId="boardId" :oldtitle="title" :sort="sort"></taskTitle>
 					<div class="text-lg font-semibold mb-2">
 						<font-awesome-icon icon="align-right" size="lg" class="text-gray-600 pr-2" />Description
 					</div>
@@ -98,6 +98,9 @@ export default {
 			required: true
 		},
 		boardId: {
+			required: true
+		},
+		sort: {
 			required: true
 		}
 	},

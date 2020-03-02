@@ -13,13 +13,14 @@ const BoardService = {
      **/
 
 
-    createBoard: async function (title, projectId) {
+    createBoard: async function (title, projectId, sort) {
         const requestData = {
             method: 'post',
             url: 'board',
             data: {
                 title: `${title}`,
-                project_id: `${projectId}`
+                project_id: `${projectId}`,
+                sort: `${sort}`
             }
         }
 
@@ -43,13 +44,15 @@ const BoardService = {
 
         }
     },
-    updateBoard: async function (id, title, projectId) {
+    updateBoard: async function (id, title, projectId, sort) {
         const requestData = {
             method: 'put',
             url: `board/${id}`,
             data: {
                 title: `${title}`,
-                project_id: `${projectId}`
+                project_id: `${projectId}`,
+                sort: `${sort}`
+
             }
         };
         try {

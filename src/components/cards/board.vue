@@ -1,5 +1,5 @@
 <template>
-	<div class="pr-5 h-screen">
+	<div class="pr-5">
 		<div class="rounded bg-gray-200 w-64 p-2 mr-3">
 			<div class="flex justify-between py-1">
 				<h3 class="text-sm">{{title}}</h3>
@@ -22,6 +22,7 @@
 							:id="boardId"
 							:oldTitle="title"
 							:projectId="projectId"
+							:sort="sort"
 							v-on:submitSuccess="updateToggle=false"
 						></boardUpdateForm>
 					</v-dialog>
@@ -70,6 +71,9 @@ export default {
 			required: true
 		},
 		boardId: {
+			required: true
+		},
+		sort: {
 			required: true
 		},
 		projectId: {

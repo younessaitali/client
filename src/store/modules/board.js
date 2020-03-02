@@ -12,7 +12,7 @@ export default {
 
         async createBoard({
             commit,
-            rootState
+            rootState,
         }, {
             title,
             projectId
@@ -21,7 +21,10 @@ export default {
                 // console.log(title + "  " + projectId);
 
 
-                const data = await BoardService.createBoard(title, projectId);
+                const sort = rootState.showProject.project.project.boards.length + 1;
+
+
+                const data = await BoardService.createBoard(title, projectId, sort);
 
                 if (await (data.success)) {
 
@@ -61,10 +64,11 @@ export default {
         }, {
             id,
             title,
-            projectId
+            projectId,
+            sort
         }) {
             try {
-                const data = await BoardService.updateBoard(id, title, projectId);
+                const data = await BoardService.updateBoard(id, title, projectId, sort);
 
                 if (data.success) {
                     commit('refreshBoards', {

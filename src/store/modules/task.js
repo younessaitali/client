@@ -21,8 +21,11 @@ export default {
             try {
                 // console.log(title + "  " + projectId);
 
-
-                const data = await TaskService.createTask(title, boardId, description);
+                // console.log(rootState.showProject.project.project.boards);
+                const board = rootState.showProject.project.project.boards.filter(b => b.id == boardId)
+                const sort = board[0].tasks.length + 1
+                console.log(sort);
+                const data = await TaskService.createTask(title, boardId, description, sort);
 
                 if (await (data.success)) {
 
@@ -66,9 +69,11 @@ export default {
         }, {
             id,
             boardId,
-            title
+            title,
+            sort
         }) {
-            const data = await TaskService.updateTask(id, title, boardId);
+
+            const data = await TaskService.updateTask(id, title, boardId, sort);
             console.log(data);
 
             if (await data.success) {

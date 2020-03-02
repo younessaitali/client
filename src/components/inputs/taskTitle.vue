@@ -57,6 +57,9 @@ export default {
 		},
 		oldtitle: {
 			required: true
+		},
+		sort: {
+			required: true
 		}
 	},
 	data() {
@@ -91,7 +94,8 @@ export default {
 					await this.updateTask({
 						id: this.taskId,
 						boardId: this.boardId,
-						title: this.title
+						title: this.title,
+						sort: this.sort
 					})
 				) {
 					this.titleloading = false;

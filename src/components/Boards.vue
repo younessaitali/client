@@ -2,7 +2,7 @@
 	<!-- <vuescroll :ops="ops"> -->
 	<div>
 		<h1 class="p-6 text-3xl font-bold">Board</h1>
-		<div class="p-6 flex">
+		<div class="p-6 w-full flex justify-start">
 			<slot></slot>
 			<div class="rounded bg-gray-200 h-full w-64 p-2 mr-64">
 				<div class="text-sm mt-2">
@@ -34,12 +34,12 @@ export default {
 		return {
 			ops: {
 				vuescroll: {
-					mode: "slide",
+					// mode: "slide",
 					sizeStrategy: "number",
 					detectResize: true
 				},
 				rail: { opacity: 0 },
-				bar: { background: "#4299E1" }
+				bar: { background: "#4299E1", keepShow: true }
 			},
 			dialog: false
 		};

@@ -8,6 +8,8 @@ import store from './store';
 import './assets/css/main.css';
 import vuetify from './plugins/vuetify';
 import vuescroll from 'vuescroll';
+import VueDragscroll from 'vue-dragscroll'
+
 import TokenService from './services/storage.service';
 import ApiService from './services/api.service';
 
@@ -42,6 +44,7 @@ import {
   FontAwesomeIcon
 } from '@fortawesome/vue-fontawesome';
 
+Vue.use(VueDragscroll)
 
 
 //* \\\\\\\\font awesome\\\\\\\\\\\\ 
