@@ -53,6 +53,13 @@ const actions = {
 
 const mutations = {
     setProject(state, project) {
+
+        project.project.boards = project.project.boards.sort((a, b) => a.sort - b.sort)
+        project.project.boards.forEach(board => {
+            board.tasks = board.tasks.sort((a, b) => a.sort - b.sort)
+        });
+        // console.log(temp)
+        // console.log(temp)
         state.project = project;
     },
     setBoard(state, board) {

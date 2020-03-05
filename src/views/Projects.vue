@@ -7,7 +7,7 @@
 			<div v-else class="flex h-screen overflow-x-auto pr-10">
 				<projectSideBar :projectName="getProject.title" :owner="getProject.owner"></projectSideBar>
 				<boards>
-					<draggable v-model="project.boards" class="flex">
+					<draggable v-model="project.boards" class="flex" v-on:input="boardSort">
 						<!-- <transition-group> -->
 						<div v-for="(board, index) in project.boards" :key="index">
 							<board
@@ -16,7 +16,7 @@
 								:projectId="getProject.id"
 								:sort="board.sort"
 							>
-								<draggable :list="board.tasks" group="task" v-on:add="sort(board)">
+								<draggable :list="board.tasks" group="task" v-on:change="sort($event,board)">
 									<div v-for="(task, index) in board.tasks" :key="index">
 										<task
 											:title="task.title"
@@ -62,9 +62,9 @@ export default {
 	},
 	computed: {
 		...mapState("showProject", {
-			project: state => state.project.project,
-			boards: state =>
-				state.project.project.boards.sort((a, b) => a.sort - b.sort)
+			project: state => state.project.project
+			// boards: state =>
+			// 	state.project.project.boards.sort((a, b) => a.sort - b.sort)
 			//todo add sort to boards after add it to task and roll back migration
 			//  {
 			// 	get: function(state) {
@@ -79,15 +79,35 @@ export default {
 	},
 	methods: {
 		...mapActions("showProject", ["fetchProject"]),
-		sort(board) {
+		...mapActions("board", ["sortUpdateBoard"]),
+		...mapActions("task", ["updateSortTask"]),
+		sort(event, board) {
 			console.log(board);
+			console.log(event);
+			board.tasks.forEach((task, index) => {
+				this.updateSortTask({
+					id: task.id,
+					boardId: board.id,
+					title: task.title,
+					sort: index + 1
+				});
+			});
+		},
+		boardSort(inputs) {
+			inputs.forEach((board, index) => {
+				this.sortUpdateBoard({
+					id: board.id,
+					title: board.title,
+					projectId: board.project_id,
+					sort: index + 1
+				});
+			});
 		}
 	},
 	async created() {
-		// console.log(this.loading);
+		console.log("blablablabla");
 		const k = await this.fetchProject(this.id);
 		this.loading = !k;
-		// console.log(this.loading);
 	}
 };
 </script>

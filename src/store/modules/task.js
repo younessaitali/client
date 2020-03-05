@@ -74,7 +74,6 @@ export default {
         }) {
 
             const data = await TaskService.updateTask(id, title, boardId, sort);
-            console.log(data);
 
             if (await data.success) {
 
@@ -84,6 +83,23 @@ export default {
                     boardId: boardId,
                     task: data.task
                 })
+                return true
+            }
+        },
+        async updateSortTask({
+            commit,
+            rootState
+        }, {
+            id,
+            boardId,
+            title,
+            sort
+        }) {
+
+            const data = await TaskService.updateTask(id, title, boardId, sort);
+            console.log(data);
+
+            if (await data.success) {
                 return true
             }
         }

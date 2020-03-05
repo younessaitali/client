@@ -18,50 +18,66 @@
 					</svg>
 				</div>
 			</div>
-			<div class="text-white mb-5 px-4 flex justify-between">
-				<div class="pr-2">
-					<font-awesome-icon icon="route" size="lg" class="text-white" />
-				</div>
-				<div class="flex-auto">
-					<h1 class="font-semibold text-xl leading-tight mb-1 truncate">Road Map</h1>
-				</div>
+
+			<div v-for="(tab, index) in sideBar" @click="active_tab(tab)" :key="index">
+				<sideBarLink :name="tab.name" :iconName="tab.iconName" :selected="tab.selected"></sideBarLink>
 			</div>
-			<div class="text-white mb-5 px-4 flex justify-between">
-				<div class="pr-2">
-					<font-awesome-icon icon="columns" size="lg" class="text-white" />
-				</div>
-				<div class="flex-auto">
-					<h1 class="font-semibold text-xl leading-tight mb-1 truncate">Boards</h1>
-				</div>
-			</div>
-			<div class="text-white mb-5 px-4 flex justify-between">
-				<div class="pr-2">
-					<font-awesome-icon icon="file" size="lg" class="text-white" />
-				</div>
-				<div class="flex-auto">
-					<h1 class="font-semibold text-xl leading-tight mb-1 truncate">Pages</h1>
-				</div>
-			</div>
-			<div class="text-white mb-5 px-4 flex justify-between">
-				<div class="pr-2">
-					<font-awesome-icon icon="sliders-h" size="lg" class="text-white" />
-				</div>
-				<div class="flex-auto">
-					<h1 class="font-semibold text-xl leading-tight mb-1 truncate">Project Settings</h1>
-				</div>
-			</div>
+			<v-dialog v-model="Project_setting_toggle" max-width="800px">
+				<h1>hello</h1>
+			</v-dialog>
 		</div>
 	</div>
 </template>
 
 <script>
+import sideBarLink from "./abstract/sideBarLink";
 export default {
+	components: { sideBarLink },
 	props: {
 		projectName: {
 			required: true
 		},
 		owner: {
 			required: true
+		}
+	},
+	data() {
+		return {
+			sideBar: [
+				{
+					name: "Road Map",
+					iconName: "route",
+					selected: false
+				},
+				{
+					name: "Boards",
+					iconName: "columns",
+					selected: true
+				},
+				{
+					name: "Pages",
+					iconName: "file",
+					selected: false
+				},
+				{
+					name: "Project Settings",
+					iconName: "sliders-h",
+					selected: false
+				}
+			],
+			Project_setting_toggle: false
+		};
+	},
+	methods: {
+		active_tab(selectedTab) {
+			this.sideBar.forEach(tab => {
+				tab.selected = tab.name == selectedTab.name;
+			});
+			switch (selectedTab.name) {
+				case "Project Settings":
+					this.Project_setting_toggle = true;
+					break;
+			}
 		}
 	}
 };

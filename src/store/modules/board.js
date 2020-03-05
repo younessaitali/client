@@ -83,6 +83,26 @@ export default {
             }
 
         },
+        async sortUpdateBoard({
+            commit,
+            rootState
+        }, {
+            id,
+            title,
+            projectId,
+            sort
+        }) {
+            try {
+                const data = await BoardService.updateBoard(id, title, projectId, sort);
+
+                if (data.success) {
+                    return true;
+                }
+            } catch (error) {
+
+            }
+
+        },
     },
     mutations: {
 
