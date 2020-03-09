@@ -5,7 +5,7 @@
 				<v-progress-circular indeterminate size="64"></v-progress-circular>
 			</v-overlay>
 			<div v-else class="flex h-screen overflow-x-auto pr-10">
-				<projectSideBar :projectName="getProject.title" :owner="getProject.owner"></projectSideBar>
+				<projectSideBar :projectName="getProject.title" :owner="getProject.owner" :project_id="id"></projectSideBar>
 				<boards>
 					<draggable v-model="project.boards" class="flex" v-on:input="boardSort">
 						<!-- <transition-group> -->
@@ -105,7 +105,6 @@ export default {
 		}
 	},
 	async created() {
-		console.log("blablablabla");
 		const k = await this.fetchProject(this.id);
 		this.loading = !k;
 	}

@@ -23,7 +23,7 @@
 				<sideBarLink :name="tab.name" :iconName="tab.iconName" :selected="tab.selected"></sideBarLink>
 			</div>
 			<v-dialog v-model="Project_setting_toggle" max-width="800px">
-				<h1>hello</h1>
+				<projectSettingCard :project_id="project_id"></projectSettingCard>
 			</v-dialog>
 		</div>
 	</div>
@@ -31,13 +31,17 @@
 
 <script>
 import sideBarLink from "./abstract/sideBarLink";
+import projectSettingCard from "./cards/projectSettingCard";
 export default {
-	components: { sideBarLink },
+	components: { sideBarLink, projectSettingCard },
 	props: {
 		projectName: {
 			required: true
 		},
 		owner: {
+			required: true
+		},
+		project_id: {
 			required: true
 		}
 	},

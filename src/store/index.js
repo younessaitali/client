@@ -11,6 +11,7 @@ import board from './modules/board'
 import task from './modules/task'
 import todoList from './modules/todoList'
 import todo from "./modules/todo"
+import projectOwner from "./modules/projectOwner"
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     board,
     task,
     todoList,
-    todo
+    todo,
+    projectOwner
   },
   strict: false
 
