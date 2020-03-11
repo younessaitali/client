@@ -45,6 +45,9 @@ import board from "../components/cards/board";
 import task from "../components/cards/taskCard";
 import { mapGetters, mapActions, mapState } from "vuex";
 import draggable from "vuedraggable";
+// import Pusher from "pusher-js";
+window.Pusher = require("pusher-js");
+import Echo from "laravel-echo";
 
 // import dashboard from "../components/dashboard";
 export default {
@@ -63,17 +66,9 @@ export default {
 	computed: {
 		...mapState("showProject", {
 			project: state => state.project.project
-			// boards: state =>
-			// 	state.project.project.boards.sort((a, b) => a.sort - b.sort)
-			//todo add sort to boards after add it to task and roll back migration
-			//  {
-			// 	get: function(state) {
-			// 		return state.project;
-			// 	},
-			// 	set: function(state, { newvalue }) {
-			// 		state.project = newvalue;
-			// 	}
-			// }
+		}),
+		...mapState("auth", {
+			token: state => state.accessToken
 		}),
 		...mapGetters("showProject", ["getProject", "getBoards"])
 	},
@@ -102,11 +97,43 @@ export default {
 					sort: index + 1
 				});
 			});
+		},
+		pusherEvent() {
+			// let pusher = new Pusher("77c6e23840f549a91042", {
+			// 	cluster: "eu",
+			// 	forceTLS: true
+			// });
+			// let channel = pusher.subscribe("private-project.1");
+			// channel.bind("AppEventscreateBoard", function(data) {
+			// 	app.messages.push(JSON.stringify(data));
+			// 	console.log("damn man ");
+			// });
+
+			window.Echo = new Echo({
+				broadcaster: "pusher",
+				key: "77c6e23840f549a91042",
+				cluster: "eu",
+				forceTLS: true,
+				authEndpoint: "http://homestead.test/broadcasting/auth",
+				auth: {
+					headers: {
+						Authorization: "Bearer " + this.token
+					}
+				}
+			});
+			console.log(this.getProject);
+			window.Echo.private(`project.${this.project.id}`).listen(
+				"createBoard",
+				e => {
+					console.log(e);
+				}
+			);
 		}
 	},
 	async created() {
 		const k = await this.fetchProject(this.id);
 		this.loading = !k;
+		await this.pusherEvent();
 	}
 };
 </script>

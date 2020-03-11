@@ -15,6 +15,14 @@ import ApiService from './services/api.service';
 
 
 
+
+
+
+// import Echo from 'laravel-echo'
+
+
+
+
 import {
   library
 } from '@fortawesome/fontawesome-svg-core';
@@ -66,6 +74,7 @@ Vue.use(vuescroll, {
 //* Set the base URL of the API
 
 ApiService.init(process.env.VUE_APP_ROOT_API);
+
 
 // If token exists set header
 if (TokenService.getToken()) {
@@ -129,7 +138,18 @@ Vue.directive("closable", {
 });
 
 
-//
+//laravel eco config 
+
+// window.Echo = new Echo({
+//   broadcaster: 'pusher',
+//   key: '77c6e23840f549a91042',
+//   cluster: 'eu',
+//   encrypted: false
+// });
+
+
+
+
 
 Vue.config.productionTip = false;
 
