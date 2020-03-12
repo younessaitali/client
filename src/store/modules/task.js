@@ -1,3 +1,5 @@
+//jshint esversion:9
+
 import TaskService from '../../services/task.service'
 
 
@@ -24,7 +26,6 @@ export default {
                 // console.log(rootState.showProject.project.project.boards);
                 const board = rootState.showProject.project.project.boards.filter(b => b.id == boardId)
                 const sort = board[0].tasks.length + 1
-                console.log(sort);
                 const data = await TaskService.createTask(title, boardId, description, sort);
 
                 if (await (data.success)) {
@@ -102,7 +103,82 @@ export default {
             if (await data.success) {
                 return true
             }
-        }
+        },
+
+        createTaskPusher({
+            commit,
+            rootState,
+        }, {
+            bloop,
+            userId
+        }) {
+
+            if (bloop.user.id != userId) {
+                console.log(bloop);
+                commit('setTask', {
+                    task: bloop.task,
+                    boards: rootState.showProject.project.project.boards
+                })
+            }
+        },
+
+
+        async deleteTaskPusher({
+            commit,
+            rootState
+        }, {
+            bloop,
+            userId
+        }) {
+
+            if (bloop.user.id != userId) {
+                console.log(bloop);
+                commit('destroyTask', {
+                    id: bloop.task.id,
+                    boards: rootState.showProject.project.project.boards,
+                    boardId: bloop.task.board_id
+                })
+            }
+
+        },
+
+
+        async updateTaskPusher({
+            commit,
+            rootState
+        }, {
+            bloop,
+            userId
+        }) {
+
+            if (bloop.user.id != userId) {
+                console.log(bloop);
+
+                if (!bloop.refresh) {
+                    commit('refreshTasks', {
+                        id: bloop.task.id,
+                        boards: rootState.showProject.project.project.boards,
+                        boardId: bloop.task.board_id,
+                        task: bloop.task
+                    })
+                } else {
+                    commit('setTask', {
+                        task: bloop.task,
+                        boards: rootState.showProject.project.project.boards
+                    })
+                    commit('destroyTask', {
+                        id: bloop.task.id,
+                        boards: rootState.showProject.project.project.boards,
+                        boardId: bloop.oldBoardId
+                    })
+                }
+            }
+
+
+
+        },
+
+
     },
     mutations: {
         setTask(state, {

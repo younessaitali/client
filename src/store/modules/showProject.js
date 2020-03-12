@@ -11,7 +11,7 @@ const getters = {
 
         return {
             'id': project.id,
-            'owner': project.owner.name,
+            'ownerName': project.auth.name,
             'title': project.title,
             'start_at': project.start_at,
             'end_at': project.end_at
@@ -20,6 +20,12 @@ const getters = {
     getBoards(state) {
         const boards = state.project.project.boards;
         return boards.sort((a, b) => a.sort - b.sort);
+    },
+    getAuth() {
+        const project = state.project.project;
+        return {
+            ...project.auth
+        }
     }
 };
 

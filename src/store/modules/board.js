@@ -38,6 +38,8 @@ export default {
 
             }
         },
+
+
         async deleteBoard({
             commit,
             rootState
@@ -58,6 +60,8 @@ export default {
 
             }
         },
+
+
         async updateBoard({
             commit,
             rootState
@@ -83,6 +87,9 @@ export default {
             }
 
         },
+
+
+
         async sortUpdateBoard({
             commit,
             rootState
@@ -103,6 +110,65 @@ export default {
             }
 
         },
+
+
+
+        createBoardPusher({
+            commit,
+            rootState,
+        }, {
+            bloop,
+            userId
+        }) {
+
+            if (bloop.user.id != userId) {
+                console.log(bloop);
+                const sort = rootState.showProject.project.project.boards.length + 1;
+                commit('setBoard', {
+                    board: bloop.board,
+                    project: rootState.showProject.project.project
+                })
+            }
+        },
+
+
+        async deleteBoardPusher({
+            commit,
+            rootState
+        }, {
+            bloop,
+            userId
+        }) {
+
+            if (bloop.user.id != userId) {
+                console.log(bloop);
+                commit('delete', {
+                    id: bloop.board.id,
+                    project: rootState.showProject.project.project
+                });
+            }
+        },
+
+
+        async updateBoardPusher({
+            commit,
+            rootState
+        }, {
+            bloop,
+            userId
+        }) {
+
+            if (bloop.user.id != userId) {
+                console.log(bloop);
+                commit('refreshBoardsPusher', {
+                    id: bloop.board.id,
+                    project: rootState.showProject.project.project,
+                    board: bloop.board
+                });
+
+            }
+
+        },
     },
     mutations: {
 
@@ -119,7 +185,7 @@ export default {
         }) {
             project.boards.forEach((board, index) => {
                 if (board.id === id)
-                    project.boards.splice(index, 1)
+                    project.boards.splice(index, 1);
             });
         },
         refreshBoards(state, {
@@ -129,8 +195,20 @@ export default {
         }) {
             project.boards.forEach((item, index) => {
                 if (item.id === id)
-                    project.boards.splice(index, 1, board)
+                    project.boards.splice(index, 1, board);
             });
-        }
+            // project.boards.sort((a, b) => a.sort - b.sort);
+        },
+        refreshBoardsPusher(state, {
+            id,
+            project,
+            board
+        }) {
+            project.boards.forEach((item, index) => {
+                if (item.id === id)
+                    project.boards.splice(index, 1, board);
+            });
+            project.boards.sort((a, b) => a.sort - b.sort);
+        },
     },
 };

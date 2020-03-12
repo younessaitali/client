@@ -5,7 +5,7 @@
 				<v-progress-circular indeterminate size="64"></v-progress-circular>
 			</v-overlay>
 			<div v-else class="flex h-screen overflow-x-auto pr-10">
-				<projectSideBar :projectName="getProject.title" :owner="getProject.owner" :project_id="id"></projectSideBar>
+				<projectSideBar :projectName="getProject.title" :owner="getProject.ownerName" :project_id="id"></projectSideBar>
 				<boards>
 					<draggable v-model="project.boards" class="flex" v-on:input="boardSort">
 						<!-- <transition-group> -->
@@ -60,7 +60,7 @@ export default {
 	},
 	data() {
 		return {
-			loading: true
+			loading: true,
 		};
 	},
 	computed: {
@@ -70,15 +70,24 @@ export default {
 		...mapState("auth", {
 			token: state => state.accessToken
 		}),
-		...mapGetters("showProject", ["getProject", "getBoards"])
+		...mapGetters("showProject", ["getProject", "getBoards", "getAuth"])
 	},
 	methods: {
 		...mapActions("showProject", ["fetchProject"]),
-		...mapActions("board", ["sortUpdateBoard"]),
-		...mapActions("task", ["updateSortTask"]),
+		...mapActions("board", [
+			"sortUpdateBoard",
+			"createBoardPusher",
+			"updateBoardPusher",
+			"deleteBoardPusher"
+		]),
+		...mapActions("task", [
+			"updateSortTask",
+			"createTaskPusher",
+			"updateTaskPusher",
+			"deleteTaskPusher"
+		]),
 		sort(event, board) {
-			console.log(board);
-			console.log(event);
+			
 			board.tasks.forEach((task, index) => {
 				this.updateSortTask({
 					id: task.id,
@@ -99,16 +108,6 @@ export default {
 			});
 		},
 		pusherEvent() {
-			// let pusher = new Pusher("77c6e23840f549a91042", {
-			// 	cluster: "eu",
-			// 	forceTLS: true
-			// });
-			// let channel = pusher.subscribe("private-project.1");
-			// channel.bind("AppEventscreateBoard", function(data) {
-			// 	app.messages.push(JSON.stringify(data));
-			// 	console.log("damn man ");
-			// });
-
 			window.Echo = new Echo({
 				broadcaster: "pusher",
 				key: "77c6e23840f549a91042",
@@ -121,11 +120,60 @@ export default {
 					}
 				}
 			});
-			console.log(this.getProject);
-			window.Echo.private(`project.${this.project.id}`).listen(
+			// console.log(this.getProject);
+			window.Echo.private(`project.${this.getProject.id}`).listen(
 				"createBoard",
 				e => {
-					console.log(e);
+					// if (e.user.id != this.getAuth.id) console.log(e);
+					this.createBoardPusher({
+						bloop: e,
+						userId: this.getAuth.id
+					});
+				}
+			);
+			window.Echo.private(`project.${this.getProject.id}`).listen(
+				"updateBoard",
+				e => {
+					this.updateBoardPusher({
+						bloop: e,
+						userId: this.getAuth.id
+					});
+				}
+			);
+			window.Echo.private(`project.${this.getProject.id}`).listen(
+				"removeBoard",
+				e => {
+					this.deleteBoardPusher({
+						bloop: e,
+						userId: this.getAuth.id
+					});
+				}
+			);
+			window.Echo.private(`project.${this.getProject.id}`).listen(
+				"createTask",
+				e => {
+					this.createTaskPusher({
+						bloop: e,
+						userId: this.getAuth.id
+					});
+				}
+			);
+			window.Echo.private(`project.${this.getProject.id}`).listen(
+				"updateTask",
+				e => {
+					this.updateTaskPusher({
+						bloop: e,
+						userId: this.getAuth.id
+					});
+				}
+			);
+			window.Echo.private(`project.${this.getProject.id}`).listen(
+				"removeTask",
+				e => {
+					this.deleteTaskPusher({
+						bloop: e,
+						userId: this.getAuth.id
+					});
 				}
 			);
 		}
