@@ -45,7 +45,8 @@ import {
   faTags,
   faCheckSquare,
   faEdit,
-  faTrashAlt
+  faTrashAlt,
+  faHome
 
 } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -56,7 +57,7 @@ Vue.use(VueDragscroll)
 
 
 //* \\\\\\\\font awesome\\\\\\\\\\\\ 
-library.add(faEdit, faTrashAlt, faAlignRight, faCalendarDay, faColumns, faIdCardAlt, faCogs, faBell, faRoute, faTasks, faFile, faSlidersH, faEllipsisH, faPlus, faFeatherAlt, faSave, faUser, faTags, faCheckSquare);
+library.add(faEdit, faHome, faTrashAlt, faAlignRight, faCalendarDay, faColumns, faIdCardAlt, faCogs, faBell, faRoute, faTasks, faFile, faSlidersH, faEllipsisH, faPlus, faFeatherAlt, faSave, faUser, faTags, faCheckSquare);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

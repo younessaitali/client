@@ -1,37 +1,41 @@
 <template>
-	<div class="home w-full">
+	<div class="w-full">
 		<Sidebar>
-			<v-overlay v-if="loading" :value="loading">
-				<v-progress-circular indeterminate size="64"></v-progress-circular>
-			</v-overlay>
-			<div v-else class="flex h-screen overflow-x-auto pr-10">
+			<div v-if="!loading">
 				<projectSideBar :projectName="getProject.title" :owner="getProject.ownerName" :project_id="id"></projectSideBar>
-				<boards>
-					<draggable v-model="project.boards" class="flex" v-on:input="boardSort">
-						<!-- <transition-group> -->
-						<div v-for="(board, index) in project.boards" :key="index">
-							<board
-								:title="board.title"
-								:boardId="board.id"
-								:projectId="getProject.id"
-								:sort="board.sort"
-							>
-								<draggable :list="board.tasks" group="task" v-on:change="sort($event,board)">
-									<div v-for="(task, index) in board.tasks" :key="index">
-										<task
-											:title="task.title"
-											:description="task.description"
-											:taskId="task.id"
-											:sort="task.sort"
-											:boardId="board.id"
-										></task>
-									</div>
-								</draggable>
-							</board>
-						</div>
-						<!-- </transition-group> -->
-					</draggable>
-				</boards>
+			</div>
+			<div class="overflow-x-auto">
+				<v-overlay v-if="loading" :value="loading">
+					<v-progress-circular indeterminate size="64"></v-progress-circular>
+				</v-overlay>
+				<div v-else class="flex h-screen pr-10">
+					<boards>
+						<draggable v-model="project.boards" class="flex" v-on:input="boardSort">
+							<!-- <transition-group> -->
+							<div v-for="(board, index) in project.boards" :key="index">
+								<board
+									:title="board.title"
+									:boardId="board.id"
+									:projectId="getProject.id"
+									:sort="board.sort"
+								>
+									<draggable :list="board.tasks" group="task" v-on:change="sort($event,board)">
+										<div v-for="(task, index) in board.tasks" :key="index">
+											<task
+												:title="task.title"
+												:description="task.description"
+												:taskId="task.id"
+												:sort="task.sort"
+												:boardId="board.id"
+											></task>
+										</div>
+									</draggable>
+								</board>
+							</div>
+							<!-- </transition-group> -->
+						</draggable>
+					</boards>
+				</div>
 			</div>
 		</Sidebar>
 	</div>
@@ -52,7 +56,7 @@ import Echo from "laravel-echo";
 // import dashboard from "../components/dashboard";
 export default {
 	name: "projects",
-	components: { draggable, Sidebar, projectSideBar, boards, board, task },
+	components: { draggable, projectSideBar, Sidebar, boards, board, task },
 	props: {
 		id: {
 			required: true
@@ -60,7 +64,7 @@ export default {
 	},
 	data() {
 		return {
-			loading: true,
+			loading: true
 		};
 	},
 	computed: {
@@ -87,7 +91,6 @@ export default {
 			"deleteTaskPusher"
 		]),
 		sort(event, board) {
-			
 			board.tasks.forEach((task, index) => {
 				this.updateSortTask({
 					id: task.id,

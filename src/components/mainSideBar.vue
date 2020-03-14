@@ -30,9 +30,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="ml-24 w-full">
+		<div class="ml-24 w-full flex">
 			<slot></slot>
 		</div>
+		<!-- <div v-if="sideBarToggle">
+			<projectSideBar projectName="sss" owner="ss" project_id="1"></projectSideBar>
+		</div>-->
 	</div>
 </template>
 
@@ -40,12 +43,18 @@
 import navButton from "./abstract/navButton";
 import addProject from "./abstract/addProject";
 import settingsCard from "./cards/settingsCard";
+import projectSideBar from "./projectSideBar";
 export default {
 	name: "sideBar",
 	components: { navButton, addProject, settingsCard },
 	data() {
 		return {
 			tabs: [
+				{
+					name: "Home",
+					iconName: "home",
+					selected: false
+				},
 				{
 					name: "calendar",
 					iconName: "calendar-day",
@@ -63,14 +72,24 @@ export default {
 				}
 			],
 			dialog: false,
-			settingsToggle: false
+			settingsToggle: false,
+			sideBarToggle: false
 		};
 	},
 	methods: {
 		active_tab(selectedTab) {
 			this.tabs.forEach(tab => {
 				tab.selected = tab.name == selectedTab.name;
+				if (tab.name === "Home") this.$router.push({ name: "home" });
 			});
+		}
+	},
+	mounted() {
+		if (this.$router.currentRoute.name == "project") {
+			this.sideBarToggle = true;
+			console.log(this.$router.currentRoute);
+		} else {
+			this.sideBarToggle = false;
 		}
 	}
 };
