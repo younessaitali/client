@@ -128,7 +128,7 @@ export default {
 			}, 250);
 		},
 		updateDescription() {
-			console.log("test works");
+			// console.log("test works");
 		},
 
 		TodoLists() {

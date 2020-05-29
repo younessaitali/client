@@ -113,7 +113,7 @@ export default {
 		pusherEvent() {
 			window.Echo = new Echo({
 				broadcaster: "pusher",
-				key: "77c6e23840f549a91042",
+				key: process.env.PUSHER_APP_KEY,
 				cluster: "eu",
 				forceTLS: true,
 				authEndpoint: "http://homestead.test/broadcasting/auth",

@@ -94,7 +94,7 @@ export default {
 			this.dialog = false;
 		},
 		deleteB() {
-			console.log(this.boardId);
+			// console.log(this.boardId);
 			this.deleteBoard({ id: this.boardId });
 		}
 	}

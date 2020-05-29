@@ -87,7 +87,7 @@ export default {
 	mounted() {
 		if (this.$router.currentRoute.name == "project") {
 			this.sideBarToggle = true;
-			console.log(this.$router.currentRoute);
+			// console.log(this.$router.currentRoute);
 		} else {
 			this.sideBarToggle = false;
 		}
